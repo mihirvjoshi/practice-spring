@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- No need to use customer service directly. We are giving you proxy with required wrappers/advices :) -->
+	<bean id="customerServiceProxy"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="customerService" />
+		<property name="interceptorNames">
+			<list>
+			 	<value>logAdvice</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="customerService"
+		class="com.practice.spring.aop.CustomerService">
+		<property name="name" value="Mihir" />
+		<property name="url" value="www.mihir.com" />
+	</bean>
+
+	<bean id="logAdvice" class="com.practice.spring.aop.LogBeforeMethod" />
+
+
+</beans>
